@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Proveedores - Mi Tienda{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <h1>Gestión de Proveedores</h1>
+    <hr>
+
+    <div class="mb-3">
+        <a href="{% url 'facturacion:proveedor_create' %}" class="btn btn-primary">Nuevo Proveedor</a>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre / Empresa</th>
+                <th>RUC / Identificación</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for proveedor in proveedores %}
+            <tr>
+                <td>{{ proveedor }}</td>
+                <td>{{ proveedor.ruc|default:proveedor.identificacion|default:"-" }}</td>
+                <td>{{ proveedor.telefono|default:"-" }}</td>
+                <td>{{ proveedor.email|default:"-" }}</td>
+                <td>
+                    <a href="{% url 'facturacion:proveedor_update' proveedor.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'facturacion:proveedor_delete' proveedor.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No hay proveedores registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

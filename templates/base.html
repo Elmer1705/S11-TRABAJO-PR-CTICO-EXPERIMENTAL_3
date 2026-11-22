@@ -7,6 +7,7 @@
     <title>{% block title %}Mi Tienda{% endblock %}</title>
     <!-- Hoja de estilos CSS personalizada -->
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
     <header class="navbar">
@@ -16,12 +17,27 @@
         <nav>
             <ul>
                 <li><a href="{% url 'home' %}">Inicio</a></li>
+                <li><a href="{% url 'facturacion:producto_list' %}">Productos</a></li>
+                <li><a href="{% url 'facturacion:marca_list' %}">Marcas</a></li>
+                <li><a href="{% url 'facturacion:categoria_list' %}">Categorías</a></li>
+                <li><a href="{% url 'facturacion:cliente_list' %}">Clientes</a></li>
+                <li><a href="{% url 'facturacion:proveedor_list' %}">Proveedores</a></li>
+                <li><a href="{% url 'facturacion:venta_list' %}">Ventas</a></li>
+                <li><a href="{% url 'facturacion:compra_list' %}">Compras</a></li>
                 <li><a href="/admin/">Administración</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="contenedor">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="msg {{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         {% block content %}
         <!-- Aquí se inyecta el contenido de cada página -->
         {% endblock %}
@@ -30,5 +46,7 @@
     <footer>
         <p>&copy; {% now "Y" %} Mi Tienda - Todos los derechos reservados</p>
     </footer>
+
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
